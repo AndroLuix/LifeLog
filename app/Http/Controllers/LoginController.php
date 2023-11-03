@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     public function index(){
-        return view("welcome");
+        $title = "Login";
+        return view("welcome",compact("title"));
     }
 
     public function login(Request $request){
@@ -18,9 +19,32 @@ class LoginController extends Controller
         ] );
 
         if(Auth::attempt($credentials)){
-            return redirect()->intended('/home');
+            return redirect()->route('homepage');
         }else{
             return redirect()->route('login')->with('error', 'Invalid credentials');
         }
     }
+
+    /**
+     * function for reset password
+     */
+
+    public function forgotPassword(){
+        $title = 'Reset Password';
+       
+        return view('forgot-password',compact('title'));
+
+    }
+
+    public function resetPassword(Request $request){
+        $email = auth()->user();
+
+        dd($email);
+
+       // auth()->user()->update(['password'=> bcrypt($request->password)]);
+
+       // return redirect('/forgot-password')->with('success', 'You\'ve just changed your password');
+    }
+
+    
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Home\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +20,12 @@ Route::get("/",[LoginController::class,'index']);
 Route::post('/',[LoginController::class,'login'])->name('login');
 Route::get('/register', [RegisterController::class, 'create'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('registration');
-Route::post('/logout',[LogoutController::class,'destroy'])->middleware('auth');
+
+/*HOME*/ 
+Route::middleware('auth')->group(function () {
+Route::get('/homepage',[HomeController::class,'index'])->name('homepage');
+Route::post('/logout',[LogoutController::class,'destroy'])->name('logout');
+});
+//Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
